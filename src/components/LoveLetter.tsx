@@ -96,7 +96,9 @@ const LoveLetter = () => {
                 YOU ARE MY PEACE, MY HOME, MY EVERYTHING. 🤍
               </p>
               <p className="text-right mt-6 text-primary italic">
-                Forever Yours ❤️
+                Forever Yours, ❤️
+                <br />
+                Sai Sushanth
               </p>
             </div>
           </motion.div>
