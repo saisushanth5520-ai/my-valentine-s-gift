@@ -6,7 +6,6 @@ import BuildupStory from "@/components/BuildupStory";
 import PhotoGallery from "@/components/PhotoGallery";
 import Timeline from "@/components/Timeline";
 import LoveLetter from "@/components/LoveLetter";
-import VideoSurprise from "@/components/VideoSurprise";
 import Quiz from "@/components/Quiz";
 import MemoryGame from "@/components/MemoryGame";
 import GrandFinale from "@/components/GrandFinale";
@@ -36,7 +35,6 @@ const Index = () => {
           <PhotoGallery />
           <Timeline />
           <LoveLetter />
-          <VideoSurprise />
           <Quiz />
           <MemoryGame />
           <GrandFinale />

@@ -1,15 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
-const placeholderPhotos = [
-  { id: 1, caption: "Our first photo together 💕", date: "Add date" },
-  { id: 2, caption: "That beautiful day ✨", date: "Add date" },
-  { id: 3, caption: "Making memories 🌹", date: "Add date" },
-  { id: 4, caption: "Forever favorites 💖", date: "Add date" },
-  { id: 5, caption: "Us being us 😊", date: "Add date" },
-  { id: 6, caption: "Best moments 💝", date: "Add date" },
-];
-
 const PhotoGallery = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -22,31 +13,30 @@ const PhotoGallery = () => {
         transition={{ duration: 0.8 }}
         className="text-3xl md:text-5xl font-bold text-gradient-rose glow-text mb-12 text-center"
       >
-        Our Memories 📸
+        Our Memory 📸
       </motion.h2>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 max-w-4xl w-full">
-        {placeholderPhotos.map((photo, i) => (
-          <motion.div
-            key={photo.id}
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={isInView ? { opacity: 1, scale: 1 } : {}}
-            transition={{ duration: 0.5, delay: i * 0.15 }}
-            className="group relative aspect-square rounded-xl overflow-hidden bg-secondary border border-border hover:border-primary/50 transition-all duration-300 hover:scale-105 cursor-pointer"
-          >
-            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
-              <div className="text-center p-3">
-                <span className="text-4xl block mb-2">💕</span>
-                <p className="text-xs">Upload photo</p>
-              </div>
-            </div>
-            <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background/90 to-transparent p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-              <p className="text-sm text-foreground font-medium">{photo.caption}</p>
-              <p className="text-xs text-muted-foreground">{photo.date}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8, rotate: -3 }}
+        animate={isInView ? { opacity: 1, scale: 1, rotate: -3 } : {}}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        whileHover={{ rotate: 0, scale: 1.05 }}
+        className="bg-white p-4 pb-16 rounded-sm shadow-[0_10px_40px_rgba(0,0,0,0.4)] max-w-xs md:max-w-sm cursor-pointer transition-transform duration-500"
+      >
+        {/* Photo area */}
+        <div className="aspect-[4/5] bg-secondary rounded-sm overflow-hidden flex items-center justify-center">
+          <div className="text-center text-muted-foreground">
+            <span className="text-5xl block mb-3">💕</span>
+            <p className="text-sm">Your photo here</p>
+          </div>
+        </div>
+
+        {/* Caption & date — handwriting style */}
+        <div className="mt-4 text-center">
+          <p className="font-script text-xl text-gray-800">Us, being us 💕</p>
+          <p className="font-script text-sm text-gray-500 mt-1">September 15</p>
+        </div>
+      </motion.div>
 
       <motion.p
         initial={{ opacity: 0 }}
@@ -54,7 +44,7 @@ const PhotoGallery = () => {
         transition={{ delay: 1.2 }}
         className="text-muted-foreground mt-8 text-center text-sm"
       >
-        Photos coming soon... 💕
+        Our favorite moment, frozen in time ✨
       </motion.p>
     </section>
   );
