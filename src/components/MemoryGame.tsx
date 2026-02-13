@@ -13,30 +13,18 @@ import photo9 from "@/assets/memory/photo9.jpeg";
 import photo10 from "@/assets/memory/photo10.jpeg";
 
 const photos = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10];
+const deckCards = [...photos, ...photos]; // 20 cards = 10 pairs
 
-// Heart-shaped grid mask (10 columns x 9 rows, 20 active cells for 10 pairs)
-const heartMask: number[][] = [
-  [2, 3, 6, 7],
-  [1, 2, 3, 4, 5, 6, 7, 8],
-  [1, 2, 3, 4, 5, 6, 7, 8],
-  [2, 3, 4, 5, 6, 7],
-  [3, 4, 5, 6],
-  [4, 5],
+// Heart grid: 7 columns, rows define which columns are active
+// Total active cells = 20
+const heartRows: number[][] = [
+  [1, 2, 4, 5],             // row 0: two bumps (4)
+  [0, 1, 2, 3, 4, 5, 6],    // row 1: full wide (7) → 4+7=11
+  [1, 2, 3, 4, 5],          // row 2: narrowing (5) → 16
+  [2, 3, 4],                // row 3: (3) → 19
+  [3],                      // row 4: point (1) → 20 ✓
 ];
-
-const COLS = 10;
-
-// Build active positions
-const activePositions: { row: number; col: number }[] = [];
-heartMask.forEach((cols, row) => {
-  cols.forEach((col) => {
-    activePositions.push({ row, col });
-  });
-});
-
-const totalCards = activePositions.length; // 20
-const pairedPhotos = photos.slice(0, Math.floor(totalCards / 2));
-const deck = [...pairedPhotos, ...pairedPhotos];
+const COLS = 7;
 
 const shuffleArray = <T,>(arr: T[]): T[] => {
   const shuffled = [...arr];
@@ -48,13 +36,13 @@ const shuffleArray = <T,>(arr: T[]): T[] => {
 };
 
 const MemoryGame = () => {
-  const [shuffled, setShuffled] = useState(() => shuffleArray(deck));
+  const [shuffled, setShuffled] = useState(() => shuffleArray(deckCards));
   const [flipped, setFlipped] = useState<number[]>([]);
   const [matched, setMatched] = useState<number[]>([]);
   const [won, setWon] = useState(false);
 
   useEffect(() => {
-    if (matched.length === shuffled.length) setWon(true);
+    if (matched.length === shuffled.length && matched.length > 0) setWon(true);
   }, [matched, shuffled.length]);
 
   useEffect(() => {
@@ -73,18 +61,18 @@ const MemoryGame = () => {
   };
 
   const reset = () => {
-    setShuffled(shuffleArray(deck));
+    setShuffled(shuffleArray(deckCards));
     setFlipped([]);
     setMatched([]);
     setWon(false);
   };
 
-  // Build the grid
+  // Build grid mapping
   let cardIndex = 0;
   const grid: (number | null)[][] = [];
-  for (let r = 0; r < heartMask.length; r++) {
+  for (let r = 0; r < heartRows.length; r++) {
     const row: (number | null)[] = [];
-    const activeCols = new Set(heartMask[r]);
+    const activeCols = new Set(heartRows[r]);
     for (let c = 0; c < COLS; c++) {
       if (activeCols.has(c) && cardIndex < shuffled.length) {
         row.push(cardIndex);
@@ -96,9 +84,10 @@ const MemoryGame = () => {
     grid.push(row);
   }
 
+  const cardSize = "w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] md:w-[90px] md:h-[90px]";
+
   return (
     <section className="min-h-screen px-4 py-20 flex flex-col items-center justify-center bg-background relative overflow-hidden">
-      {/* Heading */}
       <motion.h2
         initial={{ opacity: 0, y: -20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -126,12 +115,12 @@ const MemoryGame = () => {
         </motion.div>
       ) : (
         <>
-          <div className="relative w-full max-w-[650px] mx-auto">
+          <div className="mx-auto">
             {grid.map((row, rIdx) => (
-              <div key={rIdx} className="flex justify-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
+              <div key={rIdx} className="flex justify-center gap-2 md:gap-3 mb-2 md:mb-3">
                 {row.map((ci, cIdx) => {
                   if (ci === null) {
-                    return <div key={cIdx} className="w-[50px] h-[50px] md:w-[60px] md:h-[60px]" />;
+                    return <div key={cIdx} className={cardSize} />;
                   }
                   const isFlipped = flipped.includes(ci) || matched.includes(ci);
                   return (
@@ -139,24 +128,24 @@ const MemoryGame = () => {
                       key={cIdx}
                       onClick={() => handleFlip(ci)}
                       whileTap={{ scale: 0.9 }}
-                      className={`w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-lg cursor-pointer border transition-all duration-300 overflow-hidden ${
+                      className={`${cardSize} rounded-xl cursor-pointer border-2 transition-all duration-300 overflow-hidden ${
                         isFlipped
-                          ? "border-primary/50"
-                          : "bg-secondary/80 border-border hover:border-primary/30"
+                          ? "border-primary"
+                          : "bg-secondary border-border hover:border-primary/30"
                       }`}
                     >
                       {isFlipped ? (
                         <motion.img
                           src={shuffled[ci]}
-                          alt="Memory"
+                          alt="Memory card"
                           initial={{ rotateY: 90 }}
                           animate={{ rotateY: 0 }}
                           transition={{ duration: 0.3 }}
                           className="w-full h-full object-cover"
                         />
                       ) : (
-                        <div className="w-full h-full flex items-center justify-center">
-                          <span className="text-primary/30 text-sm">♥</span>
+                        <div className="w-full h-full flex items-center justify-center bg-secondary/80">
+                          <span className="text-primary/40 text-2xl md:text-3xl">♥</span>
                         </div>
                       )}
                     </motion.div>
@@ -166,7 +155,7 @@ const MemoryGame = () => {
             ))}
           </div>
 
-          <div className="flex justify-between w-full max-w-[650px] mt-8 px-2">
+          <div className="flex justify-between w-full max-w-[550px] mt-8 px-2">
             <p className="font-script text-xl md:text-2xl text-foreground/70">
               <span className="text-primary italic">Match</span><br />
               the photo pairs
