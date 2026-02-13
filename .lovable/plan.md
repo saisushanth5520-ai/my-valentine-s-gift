@@ -20,12 +20,12 @@ A multi-section, scroll-through romantic experience that builds up to an unforge
 - Each message fades in as the user scrolls, with smooth transitions
 - Floating emoji animations (hearts, balloons, sparkles) between sections
 
-## Section 3: Photo Gallery & Memories
+## Section 3: Polaroid Photo Memory
 
-- A beautiful photo gallery section with your couple photos (placeholder slots for now — you'll upload photos later)
-- Photos displayed in a romantic carousel or grid with hover effects
-- Each photo can have a small caption/date underneath
-- Soft background music toggle option (optional, can be added later)
+- A single photo displayed as a romantic Polaroid-style card
+- Slightly tilted with a soft shadow, white border like a real Polaroid
+- Caption and date written underneath in handwriting-style font
+- Placeholder image for now — you'll upload the photo later
 
 ## Section 4: Relationship Timeline
 
@@ -33,19 +33,6 @@ A multi-section, scroll-through romantic experience that builds up to an unforge
 - Placeholder milestones you can customize: "When we first met", "Our first date", "First trip together", etc.
 - Each milestone has a date, a short description, and an optional photo
 - Animated line connecting the dots as you scroll
-
-## Section 5: The Love Letter 💌
-
-- A beautifully styled love letter section with an envelope animation
-- Clicking/tapping the envelope reveals a handwritten-style letter
-- Placeholder text you can customize with your personal message to Almas
-- Romantic typography with a parchment-like background
-
-## Section 6: The Video Surprise 🎬
-
-- Your uploaded video plays in a cinematic frame
-- Dark background with a glowing border to make it feel like a movie moment
-- Auto-plays when the section scrolls into view (with unmute button)
 
 ## Section 7: Memory Matching Game 🎮
 
