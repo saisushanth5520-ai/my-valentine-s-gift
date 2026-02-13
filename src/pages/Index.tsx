@@ -34,11 +34,10 @@ const Index = () => {
       ) : (
         <div className="relative z-10">
           <BuildupStory />
-          <PhotoGallery />
-          
-          <LoveLetter />
           <Quiz />
           <MemoryGame />
+          <PhotoGallery />
+          <LoveLetter />
           <GrandFinale />
           <EndingMessage />
         </div>
