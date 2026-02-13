@@ -9,6 +9,7 @@ import LoveLetter from "@/components/LoveLetter";
 import Quiz from "@/components/Quiz";
 import MemoryGame from "@/components/MemoryGame";
 import GrandFinale from "@/components/GrandFinale";
+import EndingMessage from "@/components/EndingMessage";
 
 const Index = () => {
   const [unlocked, setUnlocked] = useState(false);
@@ -38,6 +39,7 @@ const Index = () => {
           <Quiz />
           <MemoryGame />
           <GrandFinale />
+          <EndingMessage />
         </div>
       )}
     </main>
