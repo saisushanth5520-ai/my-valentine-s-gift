@@ -1,70 +1,122 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-interface Question {
+interface BaseQuestion {
   question: string;
-  options: string[];
-  correctIndex: number;
   reaction: string;
 }
 
+interface TextQuestion extends BaseQuestion {
+  type: "text";
+  answer: string;
+}
+
+interface ChoiceQuestion extends BaseQuestion {
+  type: "choice";
+  options: string[];
+  correctIndex: number;
+}
+
+interface DateQuestion extends BaseQuestion {
+  type: "date";
+  answer: string; // "YYYY-MM-DD"
+}
+
+type Question = TextQuestion | ChoiceQuestion | DateQuestion;
+
 const questions: Question[] = [
   {
-    question: "What's my favorite thing about you?",
-    options: ["Your smile 😊", "Your eyes 👀", "Your laugh 😂", "Everything 💕"],
-    correctIndex: 3,
-    reaction: "Yes! Literally EVERYTHING about you! 🥰",
+    type: "text",
+    question: "What was the name of the place that we talked about going to for our honeymoon? 🌍✈️",
+    answer: "paris",
+    reaction: "Yesss! Paris it is, my love! 🗼💕",
   },
   {
-    question: "What was the first thing I noticed about you?",
-    options: ["Your voice 🎶", "Your smile 😊", "Your vibe ✨", "Your beauty 💫"],
+    type: "date",
+    question: "By chance, when was our online date? 📱💕",
+    answer: "2025-01-27",
+    reaction: "Jan 27 — a date I'll never forget! 🥰",
+  },
+  {
+    type: "choice",
+    question: "Who do I love more? 🤔💕",
+    options: ["You 💕", "Mangoes 🥭"],
+    correctIndex: 0,
+    reaction: "Obviously YOU! No mango could ever compete! 😤💝",
+  },
+  {
+    type: "choice",
+    question: "Just to remind... I'm asking you, who kissed first? 😘",
+    options: ["You 😏", "Me 🙈"],
     correctIndex: 1,
-    reaction: "That smile hit different! 😍",
+    reaction: "Hehe yesss it was me! No regrets! 😘💕",
   },
   {
-    question: "What do I miss the most when you're not around?",
-    options: ["Your texts 💬", "Your presence 🤗", "Your voice 🎵", "All of the above 💝"],
-    correctIndex: 3,
-    reaction: "Every single bit of you! 😭💕",
-  },
-  {
-    question: "How much do I love you?",
-    options: ["A lot ❤️", "More than food 🍕", "To the moon 🌙", "Beyond infinity ♾️"],
-    correctIndex: 3,
-    reaction: "There's no limit to how much I love you! 🚀💕",
-  },
-  {
-    question: "What would I choose — sleep or talking to you at 3AM?",
-    options: ["Sleep 😴", "Talking to you 📱", "Both somehow 😂", "You, always you 💕"],
-    correctIndex: 3,
-    reaction: "Sleep is temporary, you are forever! 😤💝",
+    type: "text",
+    question: "What were the two emojis we used with each other as a way of saying bye but we ain't using it now just so you know? 🤔",
+    answer: "monkey and elephant",
+    reaction: "🐒🐘 Those were our things! Miss that! 💕",
   },
 ];
 
 const Quiz = () => {
   const [currentQ, setCurrentQ] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
   const [showReaction, setShowReaction] = useState(false);
   const [score, setScore] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [textInput, setTextInput] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>();
+  const [answered, setAnswered] = useState(false);
+  const [isCorrect, setIsCorrect] = useState(false);
+  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
 
-  const handleSelect = (index: number) => {
-    if (selected !== null) return;
-    setSelected(index);
+  const checkAnswer = (correct: boolean) => {
+    setAnswered(true);
+    setIsCorrect(correct);
     setShowReaction(true);
-    if (index === questions[currentQ].correctIndex) {
-      setScore((s) => s + 1);
-    }
+    if (correct) setScore((s) => s + 1);
 
     setTimeout(() => {
       if (currentQ < questions.length - 1) {
         setCurrentQ((q) => q + 1);
-        setSelected(null);
+        setAnswered(false);
         setShowReaction(false);
+        setTextInput("");
+        setSelectedDate(undefined);
+        setSelectedChoice(null);
+        setIsCorrect(false);
       } else {
         setFinished(true);
       }
-    }, 2000);
+    }, 2500);
+  };
+
+  const handleTextSubmit = () => {
+    if (!textInput.trim() || answered) return;
+    const q = questions[currentQ] as TextQuestion;
+    const correct = textInput.trim().toLowerCase() === q.answer.toLowerCase();
+    checkAnswer(correct);
+  };
+
+  const handleDateSubmit = () => {
+    if (!selectedDate || answered) return;
+    const q = questions[currentQ] as DateQuestion;
+    const correct = format(selectedDate, "yyyy-MM-dd") === q.answer;
+    checkAnswer(correct);
+  };
+
+  const handleChoiceSelect = (index: number) => {
+    if (answered) return;
+    setSelectedChoice(index);
+    const q = questions[currentQ] as ChoiceQuestion;
+    checkAnswer(index === q.correctIndex);
   };
 
   const q = questions[currentQ];
@@ -130,33 +182,102 @@ const Quiz = () => {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 gap-3">
-                {q.options.map((opt, i) => {
-                  const isSelected = selected === i;
-                  const isCorrect = i === q.correctIndex;
-                  const showResult = selected !== null;
-
-                  return (
-                    <motion.button
-                      key={i}
-                      whileHover={selected === null ? { scale: 1.02 } : {}}
-                      whileTap={selected === null ? { scale: 0.98 } : {}}
-                      onClick={() => handleSelect(i)}
-                      className={`w-full p-4 rounded-xl border-2 text-left text-lg transition-all duration-300 ${
-                        showResult
-                          ? isCorrect
-                            ? "border-green-500 bg-green-500/10 text-green-300"
-                            : isSelected
-                            ? "border-rose-500 bg-rose-500/10 text-rose-300"
-                            : "border-border/30 opacity-40"
-                          : "border-primary/20 bg-secondary hover:border-primary/50 cursor-pointer"
-                      }`}
+              {/* Text input question */}
+              {q.type === "text" && (
+                <div className="space-y-3">
+                  <Input
+                    value={textInput}
+                    onChange={(e) => setTextInput(e.target.value)}
+                    placeholder="Type your answer here... 💭"
+                    disabled={answered}
+                    onKeyDown={(e) => e.key === "Enter" && handleTextSubmit()}
+                    className={cn(
+                      "text-lg p-4 h-14 rounded-xl border-2 border-primary/20 bg-secondary transition-all",
+                      answered && isCorrect && "border-green-500 bg-green-500/10",
+                      answered && !isCorrect && "border-rose-500 bg-rose-500/10"
+                    )}
+                  />
+                  {!answered && (
+                    <Button
+                      onClick={handleTextSubmit}
+                      className="w-full rounded-xl h-12 text-lg"
+                      disabled={!textInput.trim()}
                     >
-                      {opt}
-                    </motion.button>
-                  );
-                })}
-              </div>
+                      Submit Answer 💌
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              {/* Date picker question */}
+              {q.type === "date" && (
+                <div className="space-y-3">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        disabled={answered}
+                        className={cn(
+                          "w-full h-14 text-lg rounded-xl border-2 border-primary/20 bg-secondary justify-start text-left font-normal",
+                          !selectedDate && "text-muted-foreground",
+                          answered && isCorrect && "border-green-500 bg-green-500/10",
+                          answered && !isCorrect && "border-rose-500 bg-rose-500/10"
+                        )}
+                      >
+                        <CalendarIcon className="mr-2 h-5 w-5" />
+                        {selectedDate ? format(selectedDate, "PPP") : "Pick a date... 📅"}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0" align="center">
+                      <Calendar
+                        mode="single"
+                        selected={selectedDate}
+                        onSelect={setSelectedDate}
+                        className={cn("p-3 pointer-events-auto")}
+                      />
+                    </PopoverContent>
+                  </Popover>
+                  {!answered && (
+                    <Button
+                      onClick={handleDateSubmit}
+                      className="w-full rounded-xl h-12 text-lg"
+                      disabled={!selectedDate}
+                    >
+                      Submit Answer 💌
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              {/* Choice question */}
+              {q.type === "choice" && (
+                <div className="grid grid-cols-1 gap-3">
+                  {(q as ChoiceQuestion).options.map((opt, i) => {
+                    const isSelected = selectedChoice === i;
+                    const isCorrectOpt = i === (q as ChoiceQuestion).correctIndex;
+
+                    return (
+                      <motion.button
+                        key={i}
+                        whileHover={!answered ? { scale: 1.02 } : {}}
+                        whileTap={!answered ? { scale: 0.98 } : {}}
+                        onClick={() => handleChoiceSelect(i)}
+                        className={`w-full p-4 rounded-xl border-2 text-left text-lg transition-all duration-300 ${
+                          answered
+                            ? isCorrectOpt
+                              ? "border-green-500 bg-green-500/10 text-green-300"
+                              : isSelected
+                              ? "border-rose-500 bg-rose-500/10 text-rose-300"
+                              : "border-border/30 opacity-40"
+                            : "border-primary/20 bg-secondary hover:border-primary/50 cursor-pointer"
+                        }`}
+                      >
+                        {opt}
+                      </motion.button>
+                    );
+                  })}
+                </div>
+              )}
 
               <AnimatePresence>
                 {showReaction && (
