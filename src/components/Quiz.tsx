@@ -149,9 +149,7 @@ const Quiz = () => {
               <p className="text-3xl md:text-4xl font-bold text-gradient-rose glow-text font-script mb-3">
                 {score === questions.length
                   ? "Perfect Score!"
-                  : score >= 3
-                  ? "So close!"
-                  : "You'll learn more about us! 😘"}
+                  : "So close! 😘"}
               </p>
               <p className="text-xl text-foreground/80 mb-2">
                 You got {score}/{questions.length} right!
