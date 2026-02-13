@@ -1,26 +1,32 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
-const emojis = ["💕", "🌹", "✨", "💖", "🦋", "💝", "🌸", "💗", "🥰", "💘", "🌺", "💞", "❤️", "🌷", "💑", "😘", "💐", "🫶", "💓", "🤍", "💜", "🩷", "🧸", "💌", "🎀", "❣️"];
-const cards = [...emojis, ...emojis];
+import photo1 from "@/assets/memory/photo1.jpeg";
+import photo2 from "@/assets/memory/photo2.jpeg";
+import photo3 from "@/assets/memory/photo3.jpeg";
+import photo4 from "@/assets/memory/photo4.jpeg";
+import photo5 from "@/assets/memory/photo5.jpeg";
+import photo6 from "@/assets/memory/photo6.jpeg";
+import photo7 from "@/assets/memory/photo7.jpeg";
+import photo8 from "@/assets/memory/photo8.jpeg";
+import photo9 from "@/assets/memory/photo9.jpeg";
+import photo10 from "@/assets/memory/photo10.jpeg";
 
-// Heart-shaped grid mask (13 columns x 12 rows = 156 cells, 52 active)
-// Each row specifies which column indices are active
+const photos = [photo1, photo2, photo3, photo4, photo5, photo6, photo7, photo8, photo9, photo10];
+
+// Heart-shaped grid mask (10 columns x 9 rows, 20 active cells for 10 pairs)
 const heartMask: number[][] = [
-  [2, 3, 8, 9],             // row 0: top bumps
-  [1, 2, 3, 4, 7, 8, 9, 10], // row 1
-  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], // row 2: wide
-  [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], // row 3
-  [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], // row 4
-  [2, 3, 4, 5, 6, 7, 8, 9],   // row 5
-  [3, 4, 5, 6, 7, 8],         // row 6
-  [4, 5, 6, 7],               // row 7
-  [5, 6],                     // row 8: bottom point
+  [2, 3, 6, 7],
+  [1, 2, 3, 4, 5, 6, 7, 8],
+  [1, 2, 3, 4, 5, 6, 7, 8],
+  [2, 3, 4, 5, 6, 7],
+  [3, 4, 5, 6],
+  [4, 5],
 ];
 
-const COLS = 12;
+const COLS = 10;
 
-// Build the list of active positions
+// Build active positions
 const activePositions: { row: number; col: number }[] = [];
 heartMask.forEach((cols, row) => {
   cols.forEach((col) => {
@@ -28,9 +34,9 @@ heartMask.forEach((cols, row) => {
   });
 });
 
-const totalCards = activePositions.length; // should be ~52
-const pairedEmojis = emojis.slice(0, Math.floor(totalCards / 2));
-const deck = [...pairedEmojis, ...pairedEmojis];
+const totalCards = activePositions.length; // 20
+const pairedPhotos = photos.slice(0, Math.floor(totalCards / 2));
+const deck = [...pairedPhotos, ...pairedPhotos];
 
 const shuffleArray = <T,>(arr: T[]): T[] => {
   const shuffled = [...arr];
@@ -73,7 +79,7 @@ const MemoryGame = () => {
     setWon(false);
   };
 
-  // Build the grid: map each active position to its card index
+  // Build the grid
   let cardIndex = 0;
   const grid: (number | null)[][] = [];
   for (let r = 0; r < heartMask.length; r++) {
@@ -92,6 +98,17 @@ const MemoryGame = () => {
 
   return (
     <section className="min-h-screen px-4 py-20 flex flex-col items-center justify-center bg-background relative overflow-hidden">
+      {/* Heading */}
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
+        className="text-3xl md:text-5xl font-bold text-gradient-rose glow-text font-script mb-10"
+      >
+        Fun game my love 💕
+      </motion.h2>
+
       {won ? (
         <motion.div
           initial={{ scale: 0 }}
@@ -109,13 +126,12 @@ const MemoryGame = () => {
         </motion.div>
       ) : (
         <>
-          {/* Heart grid */}
-          <div className="relative w-full max-w-[600px] mx-auto">
+          <div className="relative w-full max-w-[650px] mx-auto">
             {grid.map((row, rIdx) => (
-              <div key={rIdx} className="flex justify-center gap-1 md:gap-1.5 mb-1 md:mb-1.5">
+              <div key={rIdx} className="flex justify-center gap-1.5 md:gap-2 mb-1.5 md:mb-2">
                 {row.map((ci, cIdx) => {
                   if (ci === null) {
-                    return <div key={cIdx} className="w-[40px] h-[40px] md:w-[46px] md:h-[46px]" />;
+                    return <div key={cIdx} className="w-[50px] h-[50px] md:w-[60px] md:h-[60px]" />;
                   }
                   const isFlipped = flipped.includes(ci) || matched.includes(ci);
                   return (
@@ -123,18 +139,25 @@ const MemoryGame = () => {
                       key={cIdx}
                       onClick={() => handleFlip(ci)}
                       whileTap={{ scale: 0.9 }}
-                      className={`w-[40px] h-[40px] md:w-[46px] md:h-[46px] rounded-lg flex items-center justify-center text-lg md:text-xl cursor-pointer border transition-all duration-300 ${
+                      className={`w-[50px] h-[50px] md:w-[60px] md:h-[60px] rounded-lg cursor-pointer border transition-all duration-300 overflow-hidden ${
                         isFlipped
-                          ? "bg-card border-primary/50"
+                          ? "border-primary/50"
                           : "bg-secondary/80 border-border hover:border-primary/30"
                       }`}
                     >
                       {isFlipped ? (
-                        <motion.span initial={{ rotateY: 90 }} animate={{ rotateY: 0 }} transition={{ duration: 0.3 }}>
-                          {shuffled[ci]}
-                        </motion.span>
+                        <motion.img
+                          src={shuffled[ci]}
+                          alt="Memory"
+                          initial={{ rotateY: 90 }}
+                          animate={{ rotateY: 0 }}
+                          transition={{ duration: 0.3 }}
+                          className="w-full h-full object-cover"
+                        />
                       ) : (
-                        <span className="text-primary/30 text-sm">♥</span>
+                        <div className="w-full h-full flex items-center justify-center">
+                          <span className="text-primary/30 text-sm">♥</span>
+                        </div>
                       )}
                     </motion.div>
                   );
@@ -143,8 +166,7 @@ const MemoryGame = () => {
             ))}
           </div>
 
-          {/* Caption text */}
-          <div className="flex justify-between w-full max-w-[600px] mt-8 px-2">
+          <div className="flex justify-between w-full max-w-[650px] mt-8 px-2">
             <p className="font-script text-xl md:text-2xl text-foreground/70">
               <span className="text-primary italic">Match</span><br />
               the photo pairs
