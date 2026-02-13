@@ -31,7 +31,7 @@ const PhotoGallery = () => {
 
         {/* Caption & date — handwriting style */}
         <div className="mt-4 text-center">
-          <p className="font-script text-xl text-foreground/90">I really love this pic of us 💕</p>
+          <p className="font-script text-xl text-black">I really love this pic of us 💕</p>
           <p className="font-script text-sm text-muted-foreground mt-1">August 25, 2025</p>
         </div>
       </motion.div>
