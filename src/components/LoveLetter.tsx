@@ -40,25 +40,63 @@ const LoveLetter = () => {
             style={{ perspective: "1000px" }}
           >
             <div className="font-script text-lg md:text-xl leading-relaxed text-foreground/90 space-y-4">
-              <p>My Dearest Almas,</p>
+              <p className="font-bold text-primary">Dear Love,</p>
               <p>
-                Every day with you feels like a gift I never knew I needed. You make my world brighter, 
-                warmer, and infinitely more beautiful just by being in it.
+                Here she is my gawddamn fking beautiful woman!!!!!! The love of my life!!!! The reason behind my happiness!!! 
+                "Mere Rashq-e-Qamar" — go search this if u don't know what it means. ✨
               </p>
               <p>
-                Your smile is my favorite sight, your laugh is my favorite sound, and your happiness 
-                is my biggest priority. I hope you know that.
+                I'm writing this letter for our first Valentine's Day which is so special to me. Almas, right at this point 
+                of my life, you are the only good thing that I have. I really can't express how happy u make me. I am seeing 
+                the happiest version of myself when I'm with you Almas — that too for this long, which is new!!!
               </p>
               <p>
-                Thank you for being you — for being patient, kind, loving, and absolutely incredible. 
-                I'm the luckiest person in the world because I get to call you mine.
+                Every time I look at you, I see everything that I dreamed for and prayed for — I really mean this Almas.
               </p>
               <p>
-                This Valentine's Day, I just want you to know — I love you more than words could ever say, 
-                and I'll spend every day showing you that. 💕
+                I wanted to say this — when I say "I love you more," I actually meant that I love you more than u love me... 
+                but not anymore. Now when I say I love u more, it is me loving u more than the imperfections that u think u 
+                may have. I love you more than the hard days that may come where we both feel loving each other is tough. 
+                I would still choose to sit with u and talk about it when these days come.
               </p>
-              <p className="text-right mt-6 text-primary">
-                Forever yours ❤️
+              <p>
+                I love you more than anything. I love you with my entire life. I love you more than my mind can define it. 
+                I love listening to you always. I love looking at you even though it is thru screens. I love learning about you. 
+                I love how much u love me. I love that such a love exists between us. I love loving you and maybe making ur day 
+                better. I love making u and seeing u happy with that cute smile of urs. I love when u are vulnerable to me. 
+                I love when u allow me to see you through you. I love that you are mine. I also love that I'm yours and beyond 
+                that — I really don't care about much anymore. JUST YOU!!!! 💕
+              </p>
+              <p>
+                I would always choose you over everyone Almas!!! By now, u should know that. No matter what happens, my love 
+                for you will never change. I will always stand by you, love you with all my heart my darlingg.
+              </p>
+              <p>
+                Even on the days when u hate urself and don't choose urself, I will still choose u and will make u feel loved 
+                because u fking deserve all the happiness and love my dear Almas. I will love u when you feel low, sit with 
+                you on ur bad days when you are crying and believe in you when u doubt urself.
+              </p>
+              <p>
+                Please never hide what's going on in ur mind and heart. You will never be too much for me, you would never be 
+                a burden for me. I just want to be the one you always come to. I will never get tired of listening to you, 
+                because what u feel, what you think always matter to me — even if that's a same thing that u have always talked 
+                about, I can listen it for another ten thousand times my love. ❤️
+              </p>
+              <p>
+                I cannot describe it anymore — it is fkingg you, it is ALMAS KAMARWAJITH, the only one that I will ever want. 
+                And somehow I can imagine ourselves growing old together, 50 years from now on... god knows what place it would 
+                be, with all the wrinkles, u would still be the most prettiest woman in my eyes and I can see myself saying 
+                "I love you gorgeous" in my old voice lolll!!!
+              </p>
+              <p>
+                I need you Almas. You are the only thing that matters to me. I would choose you in every lifetime, in every 
+                little dreams that I have, in every prayers.
+              </p>
+              <p className="text-xl font-bold text-primary text-center mt-4">
+                YOU ARE MY PEACE, MY HOME, MY EVERYTHING. 🤍
+              </p>
+              <p className="text-right mt-6 text-primary italic">
+                Forever Yours ❤️
               </p>
             </div>
           </motion.div>
