@@ -1,5 +1,6 @@
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
+import ourMemory from "@/assets/our-memory.png";
 
 const PhotoGallery = () => {
   const ref = useRef(null);
@@ -24,17 +25,14 @@ const PhotoGallery = () => {
         className="bg-white p-4 pb-16 rounded-sm shadow-[0_10px_40px_rgba(0,0,0,0.4)] max-w-xs md:max-w-sm cursor-pointer transition-transform duration-500"
       >
         {/* Photo area */}
-        <div className="aspect-[4/5] bg-secondary rounded-sm overflow-hidden flex items-center justify-center">
-          <div className="text-center text-muted-foreground">
-            <span className="text-5xl block mb-3">💕</span>
-            <p className="text-sm">Your photo here</p>
-          </div>
+        <div className="aspect-[4/5] bg-secondary rounded-sm overflow-hidden">
+          <img src={ourMemory} alt="Us together on August 25, 2025" className="w-full h-full object-cover" />
         </div>
 
         {/* Caption & date — handwriting style */}
         <div className="mt-4 text-center">
-          <p className="font-script text-xl text-gray-800">Us, being us 💕</p>
-          <p className="font-script text-sm text-gray-500 mt-1">September 15</p>
+          <p className="font-script text-xl text-foreground/90">I really love this pic of us 💕</p>
+          <p className="font-script text-sm text-muted-foreground mt-1">August 25, 2025</p>
         </div>
       </motion.div>
 
