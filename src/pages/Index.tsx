@@ -1,6 +1,7 @@
 import { useState } from "react";
 import LoginGate from "@/components/LoginGate";
 import FloatingHearts from "@/components/FloatingHearts";
+import BackgroundMusic from "@/components/BackgroundMusic";
 import HeroSection from "@/components/HeroSection";
 import BuildupStory from "@/components/BuildupStory";
 import PhotoGallery from "@/components/PhotoGallery";
@@ -27,7 +28,7 @@ const Index = () => {
   return (
     <main className="min-h-screen bg-background text-foreground overflow-x-hidden relative">
       <FloatingHearts />
-
+      <BackgroundMusic />
       {!started ? (
         <HeroSection onContinue={() => setStarted(true)} />
       ) : (
