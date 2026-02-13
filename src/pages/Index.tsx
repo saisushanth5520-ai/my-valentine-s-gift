@@ -4,7 +4,7 @@ import FloatingHearts from "@/components/FloatingHearts";
 import HeroSection from "@/components/HeroSection";
 import BuildupStory from "@/components/BuildupStory";
 import PhotoGallery from "@/components/PhotoGallery";
-import Timeline from "@/components/Timeline";
+
 import LoveLetter from "@/components/LoveLetter";
 import Quiz from "@/components/Quiz";
 import MemoryGame from "@/components/MemoryGame";
@@ -34,7 +34,7 @@ const Index = () => {
         <div className="relative z-10">
           <BuildupStory />
           <PhotoGallery />
-          <Timeline />
+          
           <LoveLetter />
           <Quiz />
           <MemoryGame />
