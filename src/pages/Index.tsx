@@ -1,13 +1,35 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import FloatingHearts from "@/components/FloatingHearts";
+import HeroSection from "@/components/HeroSection";
+import BuildupStory from "@/components/BuildupStory";
+import PhotoGallery from "@/components/PhotoGallery";
+import Timeline from "@/components/Timeline";
+import LoveLetter from "@/components/LoveLetter";
+import VideoSurprise from "@/components/VideoSurprise";
+import MemoryGame from "@/components/MemoryGame";
+import GrandFinale from "@/components/GrandFinale";
 
 const Index = () => {
+  const [started, setStarted] = useState(false);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <main className="min-h-screen bg-background text-foreground overflow-x-hidden relative">
+      <FloatingHearts />
+
+      {!started ? (
+        <HeroSection onContinue={() => setStarted(true)} />
+      ) : (
+        <div className="relative z-10">
+          <BuildupStory />
+          <PhotoGallery />
+          <Timeline />
+          <LoveLetter />
+          <VideoSurprise />
+          <MemoryGame />
+          <GrandFinale />
+        </div>
+      )}
+    </main>
   );
 };
 
