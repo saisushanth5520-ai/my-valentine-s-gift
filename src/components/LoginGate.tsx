@@ -105,9 +105,6 @@ const LoginGate = ({ onUnlock }: LoginGateProps) => {
             Unlock 💝
           </motion.button>
 
-          <p className="text-muted-foreground text-xs mt-6">
-            Only you know the answer, love ✨
-          </p>
         </motion.div>
       </motion.div>
     </div>
